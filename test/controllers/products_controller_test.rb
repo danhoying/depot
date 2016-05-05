@@ -14,6 +14,11 @@ class ProductsControllerTest < ActionController::TestCase
   test "should get index" do
     get :index
     assert_response :success
+    assert_select '.list_actions', 3
+    assert_select '.list_actions a', "Show"
+    assert_select '.list_actions a', "Edit"
+    assert_select '.list_actions a', "Destroy"
+    assert_select 'a', "New Product"
     assert_not_nil assigns(:products)
   end
 
@@ -33,11 +38,17 @@ class ProductsControllerTest < ActionController::TestCase
   test "should show product" do
     get :show, id: @product
     assert_response :success
+    assert_template :show
+    assert_select 'a', "Edit"
+    assert_select 'a', "Back"
   end
 
   test "should get edit" do
     get :edit, id: @product
     assert_response :success
+    assert_template :edit
+    assert_select 'a', "Show"
+    assert_select 'a', "Back"
   end
 
   test "should update product" do
