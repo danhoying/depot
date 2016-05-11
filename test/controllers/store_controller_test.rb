@@ -10,4 +10,20 @@ class StoreControllerTest < ActionController::TestCase
     assert_select '.price', /\$[,\d]+\.\d\d/
   end
 
+  test "should display access counter only if greater than 5" do
+    get :index
+    get :index
+    get :index
+    get :index
+    get :index
+    get :index
+    assert_match('Accessed 6 times', response.body )
+  end
+
+  test "should not display access counter if less than 5" do
+    get :index
+    get :index
+    get :index
+    refute_match('Accessed 3 times', response.body )
+  end
 end
